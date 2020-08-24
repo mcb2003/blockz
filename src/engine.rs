@@ -13,9 +13,19 @@ use olc_pixel_game_engine as olc;
 
 const TILE_SIZE: i32 = 16;
 
+fn world_to_screen(pos: &olc::Vi2d) -> olc::Vi2d {
+    let mut new = pos.clone();
+    new.x *= TILE_SIZE;
+    new.y *= TILE_SIZE;
+    new
+}
+
 pub struct Engine {
     synth: Option<tts::TTS>,
     tile_set: TileSet,
+    cursor: olc::Vi2d,
+    width: i32,
+    height: i32,
 }
 
 impl Engine {
@@ -31,6 +41,9 @@ impl Engine {
         Self {
             synth,
             tile_set: TileSet::new((olc::screen_width() * olc::screen_height()) as usize),
+            cursor: olc::Vi2d { x: 0, y: 0 },
+            width: 0,
+            height: 0,
         }
     }
 
@@ -53,6 +66,9 @@ impl Engine {
 
 impl olc::Application for Engine {
     fn on_user_create(&mut self) -> Result<(), olc::Error> {
+        self.width = olc::screen_width() / TILE_SIZE;
+        self.height = olc::screen_height() / TILE_SIZE;
+
         self.speak("Welcome to Blockz!", true);
         Ok(())
     }
@@ -64,8 +80,23 @@ impl olc::Application for Engine {
         if olc::get_key(Key::F).pressed {
             self.speak(format!("{} frames per second", olc::get_fps()), true);
         }
+        // Move cursor
+        if olc::get_key(Key::UP).pressed && self.cursor.y > 0 {
+            self.cursor.y -= 1;
+        }
+        if olc::get_key(Key::DOWN).pressed && self.cursor.y < self.height - 1 {
+            self.cursor.y += 1;
+        }
+        if olc::get_key(Key::LEFT).pressed && self.cursor.x > 0 {
+            self.cursor.x -= 1;
+        }
+        if olc::get_key(Key::RIGHT).pressed && self.cursor.x < self.width - 1 {
+            self.cursor.x += 1;
+        }
 
         self.tile_set.draw();
+        let c = world_to_screen(&self.cursor);
+        olc::draw_rect(c.x, c.y, TILE_SIZE, TILE_SIZE, olc::CYAN);
         Ok(())
     }
     fn on_user_destroy(&mut self) -> Result<(), olc::Error> {

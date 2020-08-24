@@ -60,6 +60,10 @@ impl olc::Application for Engine {
         if olc::get_key(Key::Q).pressed {
             process::exit(0);
         }
+        // Speak FPS
+        if olc::get_key(Key::F).pressed {
+            self.speak(format!("{} frames per second", olc::get_fps()), true);
+        }
 
         self.tile_set.draw();
         Ok(())

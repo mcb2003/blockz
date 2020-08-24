@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 olc_pixel_game_engine = "0.5.0"
+tts = "0.6.0"

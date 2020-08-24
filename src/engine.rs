@@ -4,18 +4,26 @@ use olc::Key;
 use olc_pixel_game_engine as olc;
 
 pub struct Engine {
+    synth: Option<tts::TTS>,
     x: f32,
     y: f32,
 }
 
 impl Engine {
     pub fn new(x: f32, y: f32) -> Self {
-        Self { x, y }
+        Self {
+            synth: tts::TTS::default().ok(),
+            x,
+            y,
+        }
     }
 }
 
 impl olc::Application for Engine {
     fn on_user_create(&mut self) -> Result<(), olc::Error> {
+        if let Some(synth) = &mut self.synth {
+            synth.speak("Welcome to Blockz!", true);
+        }
         Ok(())
     }
     fn on_user_update(&mut self, f_elapsed_time: f32) -> Result<(), olc::Error> {

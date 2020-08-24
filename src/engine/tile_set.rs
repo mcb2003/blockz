@@ -11,13 +11,12 @@ pub struct TileSet {
 }
 
 impl TileSet {
-    pub fn new(num_tiles: usize) -> Self {
-        let mut tiles: Vec<Option<Rc<dyn Tile>>> = Vec::with_capacity(num_tiles);
-        for i in 0..num_tiles {
-            tiles.push(if i % 8 == 0 {
-                Some(Rc::new(SolidBlock {}))
-            } else {
-                None
+    pub fn load(level: &str) -> Self {
+        let mut tiles: Vec<Option<Rc<dyn Tile>>> = Vec::with_capacity(level.len());
+        for c in level.chars() {
+            tiles.push(match c {
+                '#' => Some(Rc::new(SolidBlock {})),
+                _ => None,
             });
         }
         Self {

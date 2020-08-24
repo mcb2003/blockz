@@ -1,16 +1,20 @@
-use olc_pixel_game_engine as olc;
+use olc_pixel_game_engine::{self as olc, Vi2d};
 
-use super::TILE_SIZE;
+use super::{SolidBlock, Tile, TILE_SIZE};
 
 pub struct TileSet {
-    tiles: Vec<bool>,
+    tiles: Vec<Option<Box<dyn Tile>>>,
 }
 
 impl TileSet {
     pub fn new(num_tiles: usize) -> Self {
-        let mut tiles = Vec::with_capacity(num_tiles);
+        let mut tiles: Vec<Option<Box<dyn Tile>>> = Vec::with_capacity(num_tiles);
         for i in 0..num_tiles {
-            tiles.push(i % 8 == 0);
+            tiles.push(if i % 8 == 0 {
+                Some(Box::new(SolidBlock {}))
+            } else {
+                None
+            });
         }
         Self { tiles }
     }
@@ -19,18 +23,16 @@ impl TileSet {
         let width = olc::screen_width() / TILE_SIZE;
         let height = olc::screen_height() / TILE_SIZE;
         olc::clear(olc::BLACK);
-        for y in 0..height {
-            for x in 0..width {
-                if self.tiles[(y * width + x) as usize] {
-                    olc::fill_rect(
-                        x * TILE_SIZE,
-                        y * TILE_SIZE,
-                        TILE_SIZE,
-                        TILE_SIZE,
-                        olc::WHITE,
-                    );
+        let mut pos = Vi2d { x: 0, y: 0 };
+        while pos.y < height {
+            while pos.x < width {
+                if let Some(tile) = &self.tiles[(pos.y * width + pos.x) as usize] {
+                    tile.draw(pos);
                 }
+                pos.x += 1;
             }
+            pos.x = 0;
+            pos.y += 1;
         }
     }
 }

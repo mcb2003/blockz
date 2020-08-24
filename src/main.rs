@@ -1,6 +1,6 @@
 use olc_pixel_game_engine as olc;
 
-use blockz::engine::{self, Engine};
+use blockz::engine::Engine;
 
 fn main() -> Result<(), olc::Error> {
     let mut app = Engine::new();

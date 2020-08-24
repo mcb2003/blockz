@@ -2,6 +2,7 @@ mod tile_set;
 pub use tile_set::TileSet;
 mod tile;
 pub use tile::Tile;
+mod block;
 
 use std::fmt::Display;
 use std::process;

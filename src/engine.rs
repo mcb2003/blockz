@@ -1,3 +1,4 @@
+use std::fmt::Display;
 use std::process;
 
 use olc::Key;
@@ -17,13 +18,22 @@ impl Engine {
             y,
         }
     }
+
+    fn speak<S>(&mut self, text: S, interrupt: bool)
+    where
+        S: Display + Into<String>,
+    {
+        if let Some(synth) = &mut self.synth {
+            synth.speak(text, interrupt);
+        } else {
+            println!("{}", text);
+        }
+    }
 }
 
 impl olc::Application for Engine {
     fn on_user_create(&mut self) -> Result<(), olc::Error> {
-        if let Some(synth) = &mut self.synth {
-            synth.speak("Welcome to Blockz!", true);
-        }
+        self.speak("Welcome to Blockz!", true);
         Ok(())
     }
     fn on_user_update(&mut self, f_elapsed_time: f32) -> Result<(), olc::Error> {

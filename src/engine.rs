@@ -105,6 +105,22 @@ impl olc::Application for Engine {
             self.cursor.x += 1;
             self.speak_cursor_tile();
         }
+        if olc::get_key(Key::HOME).pressed && self.cursor.x != 0 {
+            self.cursor.x = 0;
+            self.speak_cursor_tile();
+        }
+        if olc::get_key(Key::END).pressed && self.cursor.x != self.width - 1 {
+            self.cursor.x = self.width - 1;
+            self.speak_cursor_tile();
+        }
+        if olc::get_key(Key::PGUP).pressed && self.cursor.y != 0 {
+            self.cursor.y = 0;
+            self.speak_cursor_tile();
+        }
+            if olc::get_key(Key::PGDN).pressed && self.cursor.y != self.height - 1 {
+            self.cursor.y = self.height - 1;
+            self.speak_cursor_tile();
+        }
 
         self.tile_set.draw();
         let c = world_to_screen(&self.cursor);

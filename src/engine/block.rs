@@ -4,6 +4,10 @@ use super::{Tile, TILE_SIZE};
 
 pub struct SolidBlock {}
 impl Tile for SolidBlock {
+    fn description(&self) -> &str {
+        "Solid block"
+    }
+
     fn draw_at(&self, pos: Vi2d) {
         olc::fill_rect(pos.x, pos.y, TILE_SIZE, TILE_SIZE, olc::WHITE);
     }

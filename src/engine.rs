@@ -1,5 +1,7 @@
 mod tile_set;
 pub use tile_set::TileSet;
+mod tile;
+pub use tile::Tile;
 
 use std::fmt::Display;
 use std::process;
@@ -7,13 +9,15 @@ use std::process;
 use olc::Key;
 use olc_pixel_game_engine as olc;
 
+const TILE_SIZE: i32 = 16;
+
 pub struct Engine {
     synth: Option<tts::TTS>,
     tile_set: TileSet,
 }
 
 impl Engine {
-    pub fn new(x: f32, y: f32) -> Self {
+    pub fn new() -> Self {
         let synth = match tts::TTS::default() {
             Ok(s) => Some(s),
             Err(e) => {
@@ -50,7 +54,7 @@ impl olc::Application for Engine {
         self.speak("Welcome to Blockz!", true);
         Ok(())
     }
-    fn on_user_update(&mut self, f_elapsed_time: f32) -> Result<(), olc::Error> {
+    fn on_user_update(&mut self, _f_elapsed_time: f32) -> Result<(), olc::Error> {
         if olc::get_key(Key::Q).pressed {
             process::exit(0);
         }

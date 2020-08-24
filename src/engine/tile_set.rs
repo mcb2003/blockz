@@ -1,6 +1,6 @@
 use olc_pixel_game_engine as olc;
 
-const TILE_SIZE: i32 = 16;
+use super::TILE_SIZE;
 
 pub struct TileSet {
     tiles: Vec<bool>,

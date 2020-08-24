@@ -62,15 +62,29 @@ impl Engine {
             println!("{}", text);
         }
     }
-fn speak_cursor_tile(&mut self) {
-    if let Some(tile) = self.tile_set.get_tile(self.cursor) {
-        self.speak(format!("{}, row {}, col {}", tile.description(), self.cursor.y+1, self.cursor.x+1), true);
-    } else {
-        self.speak(format!("Blank, row {}, col {}", self.cursor.y+1, self.cursor.x+1), true);
-    }
+    fn speak_cursor_tile(&mut self) {
+        if let Some(tile) = self.tile_set.get_tile(self.cursor) {
+            self.speak(
+                format!(
+                    "{}, row {}, col {}",
+                    tile.description(),
+                    self.cursor.y + 1,
+                    self.cursor.x + 1
+                ),
+                true,
+            );
+        } else {
+            self.speak(
+                format!(
+                    "Blank, row {}, col {}",
+                    self.cursor.y + 1,
+                    self.cursor.x + 1
+                ),
+                true,
+            );
+        }
     }
 }
-
 
 impl olc::Application for Engine {
     fn on_user_create(&mut self) -> Result<(), olc::Error> {
@@ -117,9 +131,14 @@ impl olc::Application for Engine {
             self.cursor.y = 0;
             self.speak_cursor_tile();
         }
-            if olc::get_key(Key::PGDN).pressed && self.cursor.y != self.height - 1 {
+        if olc::get_key(Key::PGDN).pressed && self.cursor.y != self.height - 1 {
             self.cursor.y = self.height - 1;
             self.speak_cursor_tile();
+        }
+        if olc::get_key(Key::S).pressed {
+            if let Some(synth) = &mut self.synth {
+                synth.stop();
+            }
         }
 
         self.tile_set.draw();

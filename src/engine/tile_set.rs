@@ -1,19 +1,21 @@
+use std::rc::Rc;
+
 use olc_pixel_game_engine::{self as olc, Vi2d};
 
 use super::{SolidBlock, Tile, TILE_SIZE};
 
 pub struct TileSet {
-    tiles: Vec<Option<Box<dyn Tile>>>,
+    tiles: Vec<Option<Rc<dyn Tile>>>,
     width: i32,
     height: i32,
 }
 
 impl TileSet {
     pub fn new(num_tiles: usize) -> Self {
-        let mut tiles: Vec<Option<Box<dyn Tile>>> = Vec::with_capacity(num_tiles);
+        let mut tiles: Vec<Option<Rc<dyn Tile>>> = Vec::with_capacity(num_tiles);
         for i in 0..num_tiles {
             tiles.push(if i % 8 == 0 {
-                Some(Box::new(SolidBlock {}))
+                Some(Rc::new(SolidBlock {}))
             } else {
                 None
             });
@@ -39,5 +41,9 @@ impl TileSet {
             pos.x = 0;
             pos.y += 1;
         }
+    }
+
+    pub fn get_tile(&self, pos: Vi2d) -> Option<Rc<dyn Tile>> {
+        self.tiles[(pos.y * self.width + pos.x) as usize].clone()
     }
 }

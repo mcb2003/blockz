@@ -12,11 +12,15 @@ pub struct Engine {
 
 impl Engine {
     pub fn new(x: f32, y: f32) -> Self {
-        Self {
-            synth: tts::TTS::default().ok(),
-            x,
-            y,
-        }
+        let synth = match tts::TTS::default() {
+            Ok(s) => Some(s),
+            Err(e) => {
+                eprintln!("Warning: Failed to initialise tts engine: {}", e);
+                eprintln!("Warning: Speech output will be sent to stdout");
+                None
+            }
+        };
+        Self { synth, x, y }
     }
 
     fn speak<S>(&mut self, text: S, interrupt: bool)
@@ -24,7 +28,12 @@ impl Engine {
         S: Display + Into<String>,
     {
         if let Some(synth) = &mut self.synth {
-            synth.speak(text, interrupt);
+            match synth.speak(text, interrupt) {
+                Ok(_) => (),
+                Err(e) => {
+                    eprintln!("Warning: Failed to synthesise text: {}", e);
+                }
+            };
         } else {
             println!("{}", text);
         }

@@ -141,7 +141,9 @@ impl olc::Application for Engine {
         }
         if olc::get_key(Key::S).pressed {
             if let Some(synth) = &mut self.synth {
-                synth.stop();
+                if let Err(e) = synth.stop() {
+                    eprintln!("Warning: Failed to stop speech: {}", e);
+                }
             }
         }
 

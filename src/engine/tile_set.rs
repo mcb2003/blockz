@@ -2,7 +2,7 @@ use std::rc::Rc;
 
 use olc_pixel_game_engine::{self as olc, Vi2d};
 
-use super::{SolidBlock, Tile, TILE_SIZE};
+use super::{Player, SolidBlock, Tile, TILE_SIZE};
 
 pub struct TileSet {
     tiles: Vec<Option<Rc<dyn Tile>>>,
@@ -16,6 +16,7 @@ impl TileSet {
         for c in level.chars() {
             tiles.push(match c {
                 '#' => Some(Rc::new(SolidBlock {})),
+                'p' => Some(Rc::new(Player {})),
                 _ => None,
             });
         }

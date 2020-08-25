@@ -11,20 +11,30 @@ pub struct TileSet {
 }
 
 impl TileSet {
-    pub fn load(level: &str) -> Self {
+    pub fn load(level: &str) -> (Self, Vi2d) {
+        let width = olc::screen_width() / TILE_SIZE;
+        let height = olc::screen_height() / TILE_SIZE;
+        let mut player_pos = Vi2d { x: 0, y: 0 };
         let mut tiles: Vec<Option<Rc<dyn Tile>>> = Vec::with_capacity(level.len());
-        for c in level.chars() {
+        for (idx, c) in level.chars().enumerate() {
             tiles.push(match c {
                 '#' => Some(Rc::new(SolidBlock {})),
-                'p' => Some(Rc::new(Player {})),
+                'p' => {
+                    player_pos.x = idx as i32 % width as i32;
+                    player_pos.y = idx as i32 / width as i32;
+                    Some(Rc::new(Player {}))
+                }
                 _ => None,
             });
         }
-        Self {
-            tiles,
-            width: olc::screen_width() / TILE_SIZE,
-            height: olc::screen_height() / TILE_SIZE,
-        }
+        (
+            Self {
+                tiles,
+                width,
+                height,
+            },
+            player_pos,
+        )
     }
 
     pub fn draw(&self) {

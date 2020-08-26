@@ -29,8 +29,8 @@ impl Tile for MovableBlock {
 
     fn draw_at(&self, pos: Vi2d) {
         olc::fill_rect(pos.x, pos.y, TILE_SIZE, TILE_SIZE, olc::DARK_BLUE);
-        olc::fill_rect(pos.x + 6, pos.y, 4, TILE_SIZE, olc::BLUE);
-        olc::fill_rect(pos.x, pos.y + 6, TILE_SIZE, 4, olc::BLUE);
+        olc::fill_rect(pos.x + 6, pos.y, 4, TILE_SIZE, olc::YELLOW);
+        olc::fill_rect(pos.x, pos.y + 6, TILE_SIZE, 4, olc::YELLOW);
     }
 
     fn is_pushable(&self, _dir: Direction) -> bool {

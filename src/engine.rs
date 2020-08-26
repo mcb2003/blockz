@@ -18,6 +18,9 @@ use std::process;
 use olc::Key;
 use olc_pixel_game_engine as olc;
 
+pub const APP_NAME: &'static str = env!("CARGO_PKG_NAME");
+pub const APP_VERSION: &'static str = env!("CARGO_PKG_VERSION");
+
 /// The size of a tile in pixels
 const TILE_SIZE: i32 = 16;
 
@@ -118,7 +121,10 @@ impl olc::Application for Engine {
         self.width = olc::screen_width() / TILE_SIZE;
         self.height = olc::screen_height() / TILE_SIZE;
 
-        self.speak("Welcome to Blockz!", true);
+        self.speak(
+            format!("Welcome to {}, version {}!", APP_NAME, APP_VERSION),
+            true,
+        );
         self.speak_cursor_tile(false);
         Ok(())
     }

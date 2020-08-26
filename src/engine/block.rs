@@ -12,7 +12,7 @@ impl Tile for SolidBlock {
     }
 
     fn draw_at(&self, pos: Vi2d) {
-        olc::fill_rect(pos.x, pos.y, TILE_SIZE, TILE_SIZE, olc::WHITE);
+        olc::fill_rect(pos.x, pos.y, TILE_SIZE, TILE_SIZE, olc::GREY);
     }
 
     fn is_pushable(&self, _dir: Direction) -> bool {

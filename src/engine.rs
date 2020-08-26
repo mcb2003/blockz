@@ -174,7 +174,7 @@ impl olc::Application for Engine {
 
         self.tile_set.draw();
         let c = world_to_screen(&self.cursor);
-        olc::draw_rect(c.x, c.y, TILE_SIZE, TILE_SIZE, olc::CYAN);
+        olc::draw_rect(c.x, c.y, TILE_SIZE, TILE_SIZE, olc::WHITE);
         Ok(())
     }
     /// Called once when the game is closed. Currently doesn't do anything.

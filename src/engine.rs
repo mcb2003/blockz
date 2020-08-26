@@ -6,6 +6,8 @@ mod block;
 pub use block::SolidBlock;
 mod player;
 pub use player::Player;
+mod direction;
+pub use direction::Direction;
 
 use std::fmt::Display;
 use std::process;

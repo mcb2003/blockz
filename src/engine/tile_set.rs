@@ -4,7 +4,7 @@ use std::rc::Rc;
 
 use olc_pixel_game_engine::{self as olc, Vi2d};
 
-use super::{Player, SolidBlock, Tile, TILE_SIZE};
+use super::{MovableBlock, Player, SolidBlock, Tile, TILE_SIZE};
 
 /// Represents a level of tiles, draws the tiles upon request, and allows this tile map to be updated.
 pub struct TileSet {
@@ -25,12 +25,13 @@ impl TileSet {
         let mut tiles: Vec<Option<Rc<dyn Tile>>> = Vec::with_capacity(level.len());
         for (idx, c) in level.chars().enumerate() {
             tiles.push(match c {
-                '#' => Some(Rc::new(SolidBlock {})),
                 'p' => {
                     player_pos.x = idx as i32 % width as i32;
                     player_pos.y = idx as i32 / width as i32;
                     Some(Rc::new(Player {}))
                 }
+                '#' => Some(Rc::new(SolidBlock {})),
+                '+' => Some(Rc::new(MovableBlock {})),
                 _ => None,
             });
         }

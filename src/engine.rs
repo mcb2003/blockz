@@ -179,6 +179,9 @@ impl olc::Application for Engine {
     }
     /// Called once when the game is closed. Currently doesn't do anything.
     fn on_user_destroy(&mut self) -> Result<(), olc::Error> {
+        if let Some(synth) = &mut self.synth {
+            synth.stop().ok();
+        }
         Ok(())
     }
 }

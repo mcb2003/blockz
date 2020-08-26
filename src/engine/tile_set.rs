@@ -1,16 +1,23 @@
+//! Contains the TileSet struct, responsible for drawing and updating the tile map.
+
 use std::rc::Rc;
 
 use olc_pixel_game_engine::{self as olc, Vi2d};
 
 use super::{Player, SolidBlock, Tile, TILE_SIZE};
 
+/// Represents a level of tiles, draws the tiles upon request, and allows this tile map to be updated.
 pub struct TileSet {
+    /// The tiles themselves. This is anything that implements the Tile trait
     tiles: Vec<Option<Rc<dyn Tile>>>,
+    /// The width of the play-field
     width: i32,
+    /// The height of the play-field
     height: i32,
 }
 
 impl TileSet {
+    /// Load a tile set from a string representing the level.
     pub fn load(level: &str) -> (Self, Vi2d) {
         let width = olc::screen_width() / TILE_SIZE;
         let height = olc::screen_height() / TILE_SIZE;
@@ -37,6 +44,7 @@ impl TileSet {
         )
     }
 
+    /// Draw each tile in the tile set using the Pixel Game Engine
     pub fn draw(&self) {
         olc::clear(olc::BLACK);
         let mut pos = Vi2d { x: 0, y: 0 };
@@ -53,6 +61,7 @@ impl TileSet {
         }
     }
 
+    /// Returns an Rc<t> smart pointer pointing to the Tile trait object at the specified position
     pub fn get_tile(&self, pos: Vi2d) -> Option<Rc<dyn Tile>> {
         self.tiles[(pos.y * self.width + pos.x) as usize].clone()
     }

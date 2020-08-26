@@ -1,7 +1,10 @@
+//! Contains the Player struct, which represents the player as a Tile.
+
 use olc_pixel_game_engine as olc;
 
 use super::{Tile, TILE_SIZE};
 
+/// Represents the player in the tile-set
 pub struct Player {}
 
 impl Tile for Player {

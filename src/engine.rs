@@ -59,7 +59,7 @@ impl Engine {
                 None
             }
         };
-        let (tile_set, cursor) = TileSet::load(
+        let tile_set = TileSet::load(
             "################\
                 #..............#\
                 #..............#\
@@ -76,6 +76,7 @@ impl Engine {
                 #+............+#\
                 ################",
         );
+        let cursor = tile_set.player_pos.clone();
 
         Self {
             synth,

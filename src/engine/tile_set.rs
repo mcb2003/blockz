@@ -4,12 +4,14 @@ use std::rc::Rc;
 
 use olc_pixel_game_engine::{self as olc, Vi2d};
 
-use super::{MovableBlock, Player, SolidBlock, Tile, TILE_SIZE};
+use super::{Direction, MovableBlock, Player, SolidBlock, Tile, TILE_SIZE};
 
 /// Represents a level of tiles, draws the tiles upon request, and allows this tile map to be updated.
 pub struct TileSet {
     /// The tiles themselves. This is anything that implements the Tile trait
     tiles: Vec<Option<Rc<dyn Tile>>>,
+    /// The current location of the player in tile-space
+    pub player_pos: Vi2d,
     /// The width of the play-field
     width: i32,
     /// The height of the play-field
@@ -18,7 +20,7 @@ pub struct TileSet {
 
 impl TileSet {
     /// Load a tile set from a string representing the level.
-    pub fn load(level: &str) -> (Self, Vi2d) {
+    pub fn load(level: &str) -> Self {
         let width = olc::screen_width() / TILE_SIZE;
         let height = olc::screen_height() / TILE_SIZE;
         let mut player_pos = Vi2d { x: 0, y: 0 };
@@ -35,14 +37,12 @@ impl TileSet {
                 _ => None,
             });
         }
-        (
-            Self {
-                tiles,
-                width,
-                height,
-            },
+        Self {
+            tiles,
+            width,
+            height,
             player_pos,
-        )
+        }
     }
 
     /// Draw each tile in the tile set using the Pixel Game Engine
@@ -65,5 +65,13 @@ impl TileSet {
     /// Returns an Rc<t> smart pointer pointing to the Tile trait object at the specified position
     pub fn get_tile(&self, pos: Vi2d) -> Option<Rc<dyn Tile>> {
         self.tiles[(pos.y * self.width + pos.x) as usize].clone()
+    }
+
+    /// Determines if the player can move in the specified direction. If the player **n** move, this
+    /// function returns Some(position) where position is the tile-space position of one tile past the
+    /// last tile that needs to be moved. If the player **can not** move, None is returned.
+    pub fn can_player_move(&self, dir: Direction) -> Option<Vi2d> {
+        let mut last = Vi2d::new(0, 0);
+        None
     }
 }

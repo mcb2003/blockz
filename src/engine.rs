@@ -66,7 +66,7 @@ impl Engine {
             println!("{}", text);
         }
     }
-    fn speak_cursor_tile(&mut self) {
+    fn speak_cursor_tile(&mut self, interrupt: bool) {
         if let Some(tile) = self.tile_set.get_tile(self.cursor) {
             self.speak(
                 format!(
@@ -75,7 +75,7 @@ impl Engine {
                     self.cursor.y + 1,
                     self.cursor.x + 1
                 ),
-                true,
+                interrupt,
             );
         } else {
             self.speak(
@@ -96,6 +96,7 @@ impl olc::Application for Engine {
         self.height = olc::screen_height() / TILE_SIZE;
 
         self.speak("Welcome to Blockz!", true);
+        self.speak_cursor_tile(false);
         Ok(())
     }
     fn on_user_update(&mut self, _f_elapsed_time: f32) -> Result<(), olc::Error> {
@@ -109,35 +110,35 @@ impl olc::Application for Engine {
         // Move cursor
         if olc::get_key(Key::UP).pressed && self.cursor.y > 0 {
             self.cursor.y -= 1;
-            self.speak_cursor_tile();
+            self.speak_cursor_tile(true);
         }
         if olc::get_key(Key::DOWN).pressed && self.cursor.y < self.height - 1 {
             self.cursor.y += 1;
-            self.speak_cursor_tile();
+            self.speak_cursor_tile(true);
         }
         if olc::get_key(Key::LEFT).pressed && self.cursor.x > 0 {
             self.cursor.x -= 1;
-            self.speak_cursor_tile();
+            self.speak_cursor_tile(true);
         }
         if olc::get_key(Key::RIGHT).pressed && self.cursor.x < self.width - 1 {
             self.cursor.x += 1;
-            self.speak_cursor_tile();
+            self.speak_cursor_tile(true);
         }
         if olc::get_key(Key::HOME).pressed && self.cursor.x != 0 {
             self.cursor.x = 0;
-            self.speak_cursor_tile();
+            self.speak_cursor_tile(true);
         }
         if olc::get_key(Key::END).pressed && self.cursor.x != self.width - 1 {
             self.cursor.x = self.width - 1;
-            self.speak_cursor_tile();
+            self.speak_cursor_tile(true);
         }
         if olc::get_key(Key::PGUP).pressed && self.cursor.y != 0 {
             self.cursor.y = 0;
-            self.speak_cursor_tile();
+            self.speak_cursor_tile(true);
         }
         if olc::get_key(Key::PGDN).pressed && self.cursor.y != self.height - 1 {
             self.cursor.y = self.height - 1;
-            self.speak_cursor_tile();
+            self.speak_cursor_tile(true);
         }
         if olc::get_key(Key::S).pressed {
             if let Some(synth) = &mut self.synth {

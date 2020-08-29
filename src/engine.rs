@@ -38,7 +38,7 @@ fn world_to_screen(pos: &olc::Vi2d) -> olc::Vi2d {
 /// The main Pixel Game Engine Application. Responsible for updating the display and controling
 /// synthesised speech.
 pub struct Engine {
-    /// The game's speech synthesiser. Will be set to None if there is an error during contruction.
+    /// The game's speech synthesiser. Will be set to None if there is an error during construction.
     synth: Option<tts::TTS>,
     /// The game's play-field of Tiles
     tile_set: TileSet,
@@ -150,6 +150,8 @@ impl olc::Application for Engine {
     }
     /// Called once per frame. Draws the play-field and handles user input.
     fn on_user_update(&mut self, _f_elapsed_time: f32) -> Result<(), olc::Error> {
+        // USER INPUT //
+        // Quit
         if olc::get_key(Key::Q).pressed {
             process::exit(0);
         }
@@ -157,6 +159,22 @@ impl olc::Application for Engine {
         if olc::get_key(Key::F).pressed {
             self.speak(format!("{} frames per second", olc::get_fps()), true);
         }
+        // Speak game info
+        if olc::get_key(Key::F1).pressed {
+            self.speak(
+                format!("{}, version {}. Created by Michael Connor Buchan, using the One Lone Coder Pixel Game Engine.", APP_NAME, APP_VERSION),
+                true
+                );
+        }
+        // Stop speech
+        if olc::get_key(Key::S).pressed {
+            if let Some(synth) = &mut self.synth {
+                if let Err(e) = synth.stop() {
+                    eprintln!("Warning: Failed to stop speech: {}", e);
+                }
+            }
+        }
+
         // Move cursor
         if olc::get_key(Key::UP).pressed && self.cursor.y > 0 {
             self.cursor.y -= 1;
@@ -190,20 +208,14 @@ impl olc::Application for Engine {
             self.cursor.y = self.height - 1;
             self.speak_cursor_tile(true);
         }
-        if olc::get_key(Key::S).pressed {
-            if let Some(synth) = &mut self.synth {
-                if let Err(e) = synth.stop() {
-                    eprintln!("Warning: Failed to stop speech: {}", e);
-                }
-            }
-        }
 
+        // DRAWING THE SCREEN //
         self.tile_set.draw();
         let c = world_to_screen(&self.cursor);
         olc::draw_rect(c.x, c.y, TILE_SIZE, TILE_SIZE, olc::WHITE);
         Ok(())
     }
-    /// Called once when the game is closed. Currently doesn't do anything.
+    /// Called once when the game is closed. Currently stops speech output (if any).
     fn on_user_destroy(&mut self) -> Result<(), olc::Error> {
         if let Some(synth) = &mut self.synth {
             synth.stop().ok();

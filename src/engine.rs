@@ -208,6 +208,17 @@ impl olc::Application for Engine {
             self.cursor.y = self.height - 1;
             self.speak_cursor_tile(true);
         }
+        // Move cursor with the mouse
+        if olc::get_mouse(0).pressed {
+            let pos = olc::Vi2d::new(
+                olc::get_mouse_x(),
+                olc::get_mouse_y(),
+                ) / olc::Vi2d {x: TILE_SIZE, y: TILE_SIZE };
+            if self.cursor != pos {
+                self.cursor = pos;
+            self.speak_cursor_tile(true);
+            }
+        }
 
         // DRAWING THE SCREEN //
         self.tile_set.draw();

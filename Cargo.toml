@@ -1,6 +1,6 @@
 [package]
 name = "blockz"
-version = "0.2.1"
+version = "0.2.2"
 description = "Accessible puzzle game with the goal of covering targets with movible blocks."
 authors = ["mcb2003 <mikeybuchan@hotmail.co.uk>"]
 readme = "README.md"

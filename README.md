@@ -11,6 +11,12 @@ and even uses [Rust bindings](https://crates.io/crates/olc_pixel_game_engine)
 to his [One Lone Coder Pixel Game Engine](https://github.com/OneLoneCoder/olcPixelGameEngine).
 Well ... it *will* be that, once it's finished, anyway.
 
+## A Note on OS Compatibility
+
+Currently, Blockz only runs on Linux. This is only temporary: I need to figure out what's going wrong on macOS and fix it (likely something to do with the
+[tts crate](https://crates.io/crates/tts)). Windows support will come if and when the
+[olc_pixel_game_engine crate](https://crates.io/crates/olc_pixel_game_engine) gains Windows support.
+
 ## Compile and Run
 
 ```bash

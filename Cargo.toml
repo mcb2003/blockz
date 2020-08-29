@@ -1,8 +1,8 @@
 [package]
 name = "blockz"
-version = "0.1.0"
-authors = ["mcb2003 <mikeybuchan@hotmail.co.uk>"]
+version = "0.2.0"
 description = "Accessible puzzle game with the goal of covering targets with movible blocks."
+authors = ["mcb2003 <mikeybuchan@hotmail.co.uk>"]
 readme = "README.md"
 homepage = "https://github.com/mcb2003/blockz#readme"
 repository = "https://github.com/mcb2003/blockz"

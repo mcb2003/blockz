@@ -142,7 +142,7 @@ impl olc::Application for Engine {
         self.height = olc::screen_height() / TILE_SIZE;
 
         self.speak(
-            format!("Welcome to {}, version {}!", APP_NAME, APP_VERSION),
+            format!("Welcome to {}!", APP_NAME),
             true,
         );
         self.speak_cursor_tile(false);

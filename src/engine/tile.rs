@@ -1,3 +1,6 @@
+// Copyright 2020, Michael Connor Buchan and the Blockz contributors
+// SPDX-License-Identifier: MIT
+
 //! Module containing the TileSet struct, which represents a game level, as well as the game's
 //! state.
 

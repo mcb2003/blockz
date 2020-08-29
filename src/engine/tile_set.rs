@@ -1,3 +1,6 @@
+// Copyright 2020, Michael Connor Buchan and the Blockz contributors
+// SPDX-License-Identifier: MIT
+
 //! Contains the TileSet struct, responsible for drawing and updating the tile map.
 
 use std::rc::Rc;

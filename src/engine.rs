@@ -1,3 +1,6 @@
+// Copyright 2020, Michael Connor Buchan and the Blockz contributors
+// SPDX-License-Identifier: MIT
+
 //! The main game engine module, containing everything necessary for the game to run except the
 //! main function.
 

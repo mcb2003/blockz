@@ -1,3 +1,6 @@
+// Copyright 2020, Michael Connor Buchan and the Blockz contributors
+// SPDX-License-Identifier: MIT
+
 //! Contains most of the block types
 
 use olc_pixel_game_engine::{self as olc, Vi2d};

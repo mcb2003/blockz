@@ -1,3 +1,6 @@
+// Copyright 2020, Michael Connor Buchan and the Blockz contributors
+// SPDX-License-Identifier: MIT
+
 use olc_pixel_game_engine as olc;
 
 use blockz::engine::{Engine, APP_NAME, APP_VERSION};

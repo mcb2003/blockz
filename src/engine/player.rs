@@ -1,3 +1,6 @@
+// Copyright 2020, Michael Connor Buchan and the Blockz contributors
+// SPDX-License-Identifier: MIT
+
 //! Contains the Player struct, which represents the player as a Tile.
 
 use olc_pixel_game_engine as olc;

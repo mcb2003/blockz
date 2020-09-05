@@ -5,15 +5,15 @@
 //! main function.
 
 mod tile_set;
-pub use tile_set::TileSet;
+use tile_set::TileSet;
 mod tile;
-pub use tile::Tile;
+use tile::Tile;
 mod block;
-pub use block::{MovableBlock, SolidBlock};
+use block::{MovableBlock, SolidBlock};
 mod player;
-pub use player::Player;
+use player::Player;
 mod direction;
-pub use direction::Direction;
+use direction::Direction;
 
 use std::fmt::Display;
 use std::process;
@@ -141,10 +141,7 @@ impl olc::Application for Engine {
         self.width = olc::screen_width() / TILE_SIZE;
         self.height = olc::screen_height() / TILE_SIZE;
 
-        self.speak(
-            format!("Welcome to {}!", APP_NAME),
-            true,
-        );
+        self.speak(format!("Welcome to {}!", APP_NAME), true);
         self.speak_cursor_tile(false);
         Ok(())
     }
@@ -210,13 +207,14 @@ impl olc::Application for Engine {
         }
         // Move cursor with the mouse
         if olc::get_mouse(0).pressed {
-            let pos = olc::Vi2d::new(
-                olc::get_mouse_x(),
-                olc::get_mouse_y(),
-                ) / olc::Vi2d {x: TILE_SIZE, y: TILE_SIZE };
+            let pos = olc::Vi2d::new(olc::get_mouse_x(), olc::get_mouse_y())
+                / olc::Vi2d {
+                    x: TILE_SIZE,
+                    y: TILE_SIZE,
+                };
             if self.cursor != pos {
                 self.cursor = pos;
-            self.speak_cursor_tile(true);
+                self.speak_cursor_tile(true);
             }
         }
 
